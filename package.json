@@ -1,0 +1,11 @@
+{
+  "name": "unix_porn",
+  "version": "0.0.1",
+  "description": "bot for runixporn",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yasser nascimento <yassern@protonmail.com>",
+  "license": "ISC"
+}
