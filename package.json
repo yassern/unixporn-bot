@@ -9,6 +9,7 @@
   "author": "yasser nascimento <yassern@protonmail.com>",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "instagram-private-api": "^0.6.7",
     "reddit-snooper": "^1.0.1"
   }
