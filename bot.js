@@ -1,12 +1,11 @@
 var redditWatcher = require('./reddit');
-var uploudOnInstagram = require('./instagram');
+var instagramUplouder = require('./instagram');
+var Post = require('./post');
 
-redditWatcher.on('post', function(post) {
-  var postInfo = {
-    domain: post.data.domain,
-    title: post.data.title,
-    author: post.data.author,
-    url: post.data.url
-  }
-  console.log(postInfo);
-})
+redditWatcher.once('post', function(post) {
+    var data = post.data;
+    var post = new Post(data.id, data.domain, data.title, data.author, data.url);
+    post.downloadImage(function(path) {
+      instagramUplouder(path, 'test');
+    });
+  })
