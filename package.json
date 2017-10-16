@@ -10,7 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^4.0.0",
+    "gm": "^1.23.0",
     "image-downloader": "^3.3.0",
+    "impurge": "^0.9.1",
     "instagram-private-api": "^0.6.7",
     "reddit-snooper": "^1.0.1"
   }
