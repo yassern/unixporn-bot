@@ -8,7 +8,7 @@ function upload(path, caption, isAlbum) {
   login
     .then(function(session) {
       if(isAlbum) {
-        Client.Upload.album(session, medias)
+        Client.Upload.album(session, path)
           .then(function (payload) {
             return Client.Media.configureAlbum(session, payload, caption, false);
           })

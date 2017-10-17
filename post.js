@@ -26,16 +26,13 @@ function getType(domain) {
     return downloadImage;
   } else if (domain === 'imgur.com') {
     return downloadImages;
-  } else if (domain === 'gycat.com') {
-    /* comming soon */
-    throw new Error('domain not supported');
   } else {
-    throw new Error('domain not supported');
+    return function(callback) {};
   }
 }
 
 function downloadImage(callback) {
-  var options = { url: this.url, dest: './images' };
+  var options = { url: this.url, dest: './images/' };
   download.image(options)
     .then(function({ filename, image }) {
       callback([filename], false);
@@ -54,11 +51,16 @@ function downloadImages(callback) {
         var filenames = values.map(function(value) {
           return value.filename;
         });
-        callback(filenames, true);
+        if(filenames < 11) {
+          callback(filenames, true);
+        } else {
+          throw new Error('too much files');
+        }
       }).catch(function(err) {
         throw err;
       })
   });
 }
+
 
 module.exports = Post;

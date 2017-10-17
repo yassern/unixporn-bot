@@ -26,9 +26,9 @@ function checkFormat(filenames, callback) {
 }
 
 function toMediaPattern(filenames, callback) {
-  var filenamesCount = jpgs.length;
+  var filenamesCount = filenames.length;
   var datas = [];
-  jpgs.forEach(function(jpg) {
+  filenames.forEach(function(jpg) {
     gm(jpg).size(function(err, size) {
       datas.push({ type: 'photo', size: [size.width, size.height], data: jpg });
       if(datas.length === filenamesCount) {

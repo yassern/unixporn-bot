@@ -2,9 +2,9 @@ var Snooper = require('reddit-snooper');
 
 snooper = new Snooper({
   automatic_retries: true,
-  api_requests_per_minuite: 5
+  api_requests_per_minuite: 2
 });
 
-var redditWatcher = snooper.watcher.getPostWatcher('unixporn');
+var redditWatcher = snooper.watcher.getPostWatcher('all');
 
 module.exports = redditWatcher;
