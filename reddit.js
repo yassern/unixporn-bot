@@ -5,6 +5,6 @@ snooper = new Snooper({
   api_requests_per_minuite: 5
 });
 
-var redditWatcher = snooper.watcher.getPostWatcher('all')
+var redditWatcher = snooper.watcher.getPostWatcher('unixporn');
 
 module.exports = redditWatcher;

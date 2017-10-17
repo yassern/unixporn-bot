@@ -53,4 +53,4 @@ function convert(filename, callback) {
   }
 }
 
-module.exports = checkFormat;
+module.exports = processing;

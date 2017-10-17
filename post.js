@@ -1,6 +1,5 @@
 var download = require('image-downloader');
 var impurge = require('impurge');
-var p = require('./processing');
 
 function Post(id, domain, title, author, url) {
   this.id = id;
@@ -8,9 +7,19 @@ function Post(id, domain, title, author, url) {
   this.title = title;
   this.author = author;
   this.url = url;
+  this.caption = createCaption(this);
   this.download = getType(this.domain);
 }
 
+function createCaption(post) {
+  var defaultHashtags = '#unixporn #unix #rice #desktop';
+  var caption = post.title;
+  caption += '\n\n';
+  caption += ('by: reddit.com/user/' + post.author);
+  caption += '\n\n';
+  caption += defaultHashtags;
+  return caption;
+}
 
 function getType(domain) {
   if(domain === 'i.redd.it' || domain === 'i.imgur.com') {
@@ -18,9 +27,10 @@ function getType(domain) {
   } else if (domain === 'imgur.com') {
     return downloadImages;
   } else if (domain === 'gycat.com') {
-    return 'comming soon';
+    /* comming soon */
+    throw new Error('domain not supported');
   } else {
-    return null;
+    throw new Error('domain not supported');
   }
 }
 
