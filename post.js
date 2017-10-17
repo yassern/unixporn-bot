@@ -7,60 +7,44 @@ function Post(id, domain, title, author, url) {
   this.title = title;
   this.author = author;
   this.url = url;
-  this.caption = createCaption(this);
-  this.download = getType(this.domain);
 }
 
-function createCaption(post) {
+Post.prototype.createCaption = function() {
   var defaultHashtags = '#unixporn #unix #rice #desktop';
-  var caption = post.title;
+  var caption = this.title;
   caption += '\n\n';
-  caption += ('by: reddit.com/user/' + post.author);
+  caption += ('by: reddit.com/user/' + this.author);
   caption += '\n\n';
   caption += defaultHashtags;
   return caption;
 }
 
-function getType(domain) {
-  if(domain === 'i.redd.it' || domain === 'i.imgur.com') {
-    return downloadImage;
-  } else if (domain === 'imgur.com') {
-    return downloadImages;
-  } else {
-    return function(callback) {};
-  }
-}
-
-function downloadImage(callback) {
-  var options = { url: this.url, dest: './images/' };
-  download.image(options)
-    .then(function({ filename, image }) {
-      callback([filename], false);
-    }).catch(function(err) {
-      throw err;
-    })
-}
-
-function downloadImages(callback) {
-  impurge.purge(this.url, function (error, urls) {
-    var promises = urls.map(function(url) {
-      return download.image({url: url, dest: './images'});
-    });
-    var imagens = Promise.all(promises)
-      .then(function(values) {
-        var filenames = values.map(function(value) {
-          return value.filename;
-        });
-        if(filenames < 11) {
-          callback(filenames, true);
-        } else {
-          throw new Error('too much files');
-        }
-      }).catch(function(err) {
-        throw err;
+Post.prototype.download = function(callback) {
+  if (this.domain === 'i.redd.it' || this.domain === 'i.imgur.com') {
+    download.image({ url: this.url, dest: './images/' })
+      .then(function({ filename, image }) {
+        callback(null, [filename]);
       })
-  });
-}
-
+      .catch(function(err) { callback(err, null) })
+  }
+  else if (this.domain === 'imgur.com') {
+    impurge.purge(this.url, function (error, urls) {
+      var promises = urls.map(function(url) {
+        return download.image({ url: url, dest: './images/' });
+      });
+      var images = Promise.all(promises)
+        .then(function(values) {
+          var filenames = values.map(function(value) {
+            return value.filename;
+          });
+          callback(null ,filenames);
+        })
+        .catch(function(err) { callback(err, null) })
+    });
+  }
+  else {
+    callback(new Error('domain not supported'), null);
+  }
+};
 
 module.exports = Post;

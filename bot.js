@@ -4,11 +4,13 @@ var processing = require('./processing');
 var Post = require('./post');
 
 redditWatcher.on('post', function(post) {
-    var data = post.data;
-    var post = new Post(data.id, data.domain, data.title, data.author, data.url);
-    post.download(function(files, isAlbum) {
-      processing(files, isAlbum, function(processedFiles) {
-        instagramUplouder(processedFiles, post.caption, isAlbum);
-      })
-    });
-  })
+  var data = post.data;
+  var post = new Post(data.id, data.domain, data.title, data.author, data.url);
+  post.download(function(err, files) {
+    if (err) { return; }
+    processing(files, function(err, processedFiles) {
+      if (err) { return; }
+      instagramUplouder(processedFiles, post.createCaption());
+    })
+  });
+})

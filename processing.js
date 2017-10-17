@@ -1,25 +1,36 @@
 var gm = require('gm');
 
-function processing(filenames, isAlbum, callback) {
-  checkFormat(filenames, function(jpgs) {
-    if (isAlbum) {
-      toMediaPattern(jpgs, function(medias) {
-        callback(medias, isAlbum);
-      });
-    } else {
-      callback(jpgs[0], isAlbum);
-    }
-  });
+function processing(filenames, callback) {
+  if(filenames.length > 10) {
+    callback(new Error('too many files!'), null);
+  } else {
+    checkFormat(filenames, function(jpgs) {
+      if (jpgs.length === 0) {
+        callback(new Error('invalid extension(s)'), null);
+      }
+      if (jpgs.length === 1) {
+        callback(null, jpgs);
+      } else {
+        toMediaPattern(jpgs, function(medias) {
+          callback(null, medias);
+        });
+      }
+    });
+  }
 }
 
 function checkFormat(filenames, callback) {
   var filenamesCount = filenames.length;
   var datas = [];
   filenames.forEach(function(filename) {
-    convert(filename, function(name) {
-      datas.push(name);
-      if(datas.length === filenamesCount) {
-        callback(datas);
+    convert(filename, function(err, jpgFile) {
+      if (err) {
+        filenamesCount--;
+      } else {
+        datas.push(jpgFile);
+        if(datas.length === filenamesCount) {
+          callback(datas);
+        }
       }
     });
   });
@@ -40,16 +51,18 @@ function toMediaPattern(filenames, callback) {
 
 function convert(filename, callback) {
   var extension = filename.split('.').pop();
-  if (extension == 'png') {
+  if (extension === 'png') {
     newName = filename.split('.');
     newName.pop();
     newName.push('jpg');
     newName = newName.join('.');
     gm(filename).write(newName, function(err) {
-      callback(newName);
+      callback(null,newName);
     });
+  } else if (extension === 'jpg') {
+    callback(null, filename);
   } else {
-    callback(filename);
+    callback(new Error('Extesion not supported'), null);
   }
 }
 
