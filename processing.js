@@ -56,7 +56,7 @@ function convert(filename, callback) {
     newName.pop();
     newName.push('jpg');
     newName = newName.join('.');
-    gm(filename).write(newName, function(err) {
+    gm(filename).quality(100).write(newName, function(err) {
       callback(null,newName);
     });
   } else if (extension === 'jpg') {
