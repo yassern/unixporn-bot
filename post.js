@@ -21,7 +21,7 @@ Post.prototype.createCaption = function() {
 
 Post.prototype.download = function(callback) {
   if (this.domain === 'i.redd.it' || this.domain === 'i.imgur.com') {
-    download.image({ url: this.url, dest: './images/' })
+    download.image({ url: this.url, dest: '/tmp/' })
       .then(function({ filename, image }) {
         callback(null, [filename]);
       })
@@ -30,14 +30,14 @@ Post.prototype.download = function(callback) {
   else if (this.domain === 'imgur.com') {
     impurge.purge(this.url, function (error, urls) {
       var promises = urls.map(function(url) {
-        return download.image({ url: url, dest: './images/' });
+        return download.image({ url: url, dest: '/tmp/' });
       });
       var images = Promise.all(promises)
         .then(function(values) {
           var filenames = values.map(function(value) {
             return value.filename;
           });
-          callback(null ,filenames);
+          callback(null, filenames);
         })
         .catch(function(err) { callback(err, null) })
     });

@@ -1,4 +1,4 @@
-var gm = require('gm');
+var gm = require('gm').subClass({ imageMagick: true });
 
 function processing(filenames, callback) {
   checkFormat(filenames, function(jpgs) {

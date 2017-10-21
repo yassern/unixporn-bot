@@ -12,13 +12,19 @@ function upload(path, caption, callback) {
       if(path.length > 1) {
         Client.Upload.album(session, path)
           .then(function (payload) {
-            callback(null, Client.Media.configureAlbum(session, payload, caption, false));
+            return Client.Media.configureAlbum(session, payload, caption, false);
+          })
+          .then(function (medium) {
+            callback(null, medium);
           })
           .catch(function(err) { callback(err, null) });
       } else {
         Client.Upload.photo(session, path[0])
           .then(function(upload) {
-            callback(null, Client.Media.configurePhoto(session, upload.params.uploadId, caption));
+            return Client.Media.configurePhoto(session, upload.params.uploadId, caption);
+          })
+          .then(function() {
+            callback(null, {});
           })
           .catch(function(err) { callback(err, null) });
       }
