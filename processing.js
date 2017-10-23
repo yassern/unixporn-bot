@@ -1,22 +1,18 @@
 var gm = require('gm');
 
 function processing(filenames, callback) {
-  if(filenames.length > 10) {
-    callback(new Error('too many files!'), null);
-  } else {
-    checkFormat(filenames, function(jpgs) {
-      if (jpgs.length === 0) {
-        callback(new Error('invalid extension(s)'), null);
-      }
-      if (jpgs.length === 1) {
-        callback(null, jpgs);
-      } else {
-        toMediaPattern(jpgs, function(medias) {
-          callback(null, medias);
-        });
-      }
-    });
-  }
+  checkFormat(filenames, function(jpgs) {
+    if (jpgs.length === 0) {
+      callback(new Error('invalid extension(s)'), null);
+    }
+    if (jpgs.length === 1) {
+      callback(null, jpgs);
+    } else {
+      toMediaPattern(jpgs, function(medias) {
+        callback(null, medias);
+      });
+    }
+  });
 }
 
 function checkFormat(filenames, callback) {
