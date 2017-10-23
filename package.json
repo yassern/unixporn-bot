@@ -1,19 +1,19 @@
 {
   "name": "unix_porn",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "bot for runixporn",
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bot.js"
   },
   "author": "yasser nascimento <yassern@protonmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^4.0.0",
     "gm": "^1.23.0",
     "image-downloader": "^3.3.0",
     "impurge": "^0.9.1",
-    "instagram-private-api": "^0.6.7",
+    "instagram-private-api": "git+https://github.com/huttarichard/instagram-private-api.git",
     "reddit-snooper": "^1.0.1"
   }
 }
