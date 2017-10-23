@@ -2,12 +2,13 @@ var download = require('image-downloader');
 var impurge = require('impurge');
 var _ = require('lodash');
 
-function Post(id, domain, title, author, url) {
+function Post(id, domain, title, author, url, edited) {
   this.id = id;
   this.domain = domain;
   this.title = title;
   this.author = author;
   this.url = url;
+  this.edited = edited;
 }
 
 Post.prototype.createCaption = function() {
@@ -21,7 +22,10 @@ Post.prototype.createCaption = function() {
 }
 
 Post.prototype.download = function(callback) {
-  if (this.domain === 'i.redd.it' || this.domain === 'i.imgur.com') {
+  if (this.edited) {
+    callback(new Error('edited post'), null);
+  }
+  else if (this.domain === 'i.redd.it' || this.domain === 'i.imgur.com') {
     download.image({ url: this.url, dest: '/tmp/' })
       .then(function({ filename, image }) {
         callback(null, [filename]);
