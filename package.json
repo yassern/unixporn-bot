@@ -14,6 +14,7 @@
     "image-downloader": "^3.3.0",
     "impurge": "^0.9.1",
     "instagram-private-api": "git+https://github.com/huttarichard/instagram-private-api.git",
+    "lodash": "^4.17.4",
     "reddit-snooper": "^1.0.1"
   }
 }

@@ -48,12 +48,12 @@ function toMediaPattern(filenames, callback) {
 function convert(filename, callback) {
   var extension = filename.split('.').pop();
   if (extension === 'png') {
-    newName = filename.split('.');
+    var newName = filename.split('.');
     newName.pop();
     newName.push('jpg');
     newName = newName.join('.');
     gm(filename).quality(100).write(newName, function(err) {
-      callback(null,newName);
+      callback(null, newName);
     });
   } else if (extension === 'jpg') {
     callback(null, filename);

@@ -1,5 +1,6 @@
 var download = require('image-downloader');
 var impurge = require('impurge');
+var _ = require('lodash');
 
 function Post(id, domain, title, author, url) {
   this.id = id;
@@ -29,6 +30,7 @@ Post.prototype.download = function(callback) {
   }
   else if (this.domain === 'imgur.com') {
     impurge.purge(this.url, function (error, urls) {
+      urls = _.uniq(urls);
       var promises = urls.map(function(url) {
         return download.image({ url: url, dest: '/tmp/' });
       });
