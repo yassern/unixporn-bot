@@ -1,7 +1,7 @@
 require('dotenv').config();
 var Client = require('instagram-private-api').V1;
 var device = new Client.Device(process.env.INSTAGRAM_USERNAME);
-var storage = new Client.CookieFileStorage(__dirname + '/.cookies/bot-cookies.json');
+var storage = new Client.CookieFileStorage('./.cookies/bot-cookies.json');
 var username = process.env.INSTAGRAM_USERNAME;
 var password = process.env.INSTAGRAM_PASSWORD;
 var login = Client.Session.create(device, storage, username, password);
