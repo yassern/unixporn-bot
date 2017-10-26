@@ -6,7 +6,7 @@ var Post = require('./post');
 console.log('Bot is running>');
 redditWatcher.on('post', function(post) {
   var data = post.data;
-  var post = new Post(data.id, data.domain, data.title, data.author, data.url, data.edited);
+  var post = new Post(data.id, data.domain, data.title, data.permalink, data.url, data.edited);
   console.log('New post> ' + post.id);
   post.download(function(err, files) {
     if (err) {

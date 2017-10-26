@@ -2,11 +2,11 @@ var download = require('image-downloader');
 var impurge = require('impurge');
 var _ = require('lodash');
 
-function Post(id, domain, title, author, url, edited) {
+function Post(id, domain, title, link, url, edited) {
   this.id = id;
   this.domain = domain;
   this.title = title;
-  this.author = author;
+  this.link = link;
   this.url = url;
   this.edited = edited;
 }
@@ -15,7 +15,7 @@ Post.prototype.createCaption = function() {
   var defaultHashtags = '#unixporn #unix #rice #desktop';
   var caption = this.title;
   caption += '\n\n';
-  caption += ('by: reddit.com/user/' + this.author);
+  caption += ('link: ' + 'https://www.reddit.com' + this.link);
   caption += '\n\n';
   caption += defaultHashtags;
   return caption;
